@@ -85,7 +85,7 @@ backup:
 	sync
 	
 dep:
-	sed '/\#\#\# Dependencies/q' < Makefile > tmo_make
+	sed '/\#\#\# Dependencies/q' < Makefile > tmp_make
 	(for i in init/*.c; \
 		do echo -n "init/";
 		$(CPP) -M $$i;
