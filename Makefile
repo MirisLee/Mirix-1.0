@@ -1,5 +1,3 @@
-AS86		=as86 -0
-LD86		=ld86 -0
 NASM		=nasm
 LD			=ld
 LDFLAGS	=-s -x -M
@@ -17,7 +15,7 @@ LIBS			=lib/lib.a
 	$(CC) $(CFLAGS) -nostdinc -Iinclude -c -o $*.o $*.c
 	
 %.o : %.asm
-	$(AS) -o $*.o $*.asm
+	$(NASM) -o $*.o $*.asm
 	
 all:	image
 
@@ -32,14 +30,12 @@ tools/build:	tools/build.c
 	$(CC) $(CFLAGS) -o tools/build tools/build.c
 	
 boot/bootsect:	boot/bootsect.asm
-	$(AS86) -o boot/bootsect.o boot/bootsect.asm
-	$(LD86) -s -o boot/bootsect boot/bootsect.o
+	$(NASM) -o boot/bootsect boot/bootsect.asm
 	
 boot/setup:		boot/setup.asm
-	$(AS86) -o boot/setup.o boot/setup.asm
-	$(LD86) -s -o boot/setup boot/setup.o
+	$(NASM) -o boot/setup boot/setup.asm
 	
-boot/head.o:	boot/head.s
+boot/head.o:	boot/head.asm
 
 tools/system:	boot/head.o init/main.o \
 					$(ARCHIEVES) $(DRIVERS) $(LIBS)
@@ -64,12 +60,6 @@ kernel/chr_dev/chr_dev.a:
 	
 lib/lib.a:
 	(cd lib; make)
-	
-tmp.asm:			boot/bootsect.asm tools/system
-	(echo -n "SYSSIZE		equ ("; \
-		ls -l tools/system | grep system | cut -c25-31 | tr '\012'''; \
-		echo "+ 15) / 16") > tmp.asm
-	cat boot/bootsect.asm >> tmp.asm
 	
 clean:
 	rm -f System.map tmp_make core boot/bootsect boot/setup
