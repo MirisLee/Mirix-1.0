@@ -65,7 +65,7 @@ struct tty_struct tty_table[] {
         {
             0,
             0,
-            B2400 | CS8,    /* control: bolt 2400bps, 8 bits */
+            B2400 | CS8,    /* control: baud 2400bps, 8 bits */
             0,
             0,
             INIT_C_CC
@@ -81,7 +81,7 @@ struct tty_struct tty_table[] {
         {
             0,
             0,
-            B2400 | CS8,    /* control: bolt 2400bps, 8 bits */
+            B2400 | CS8,    /* control: baud 2400bps, 8 bits */
             0,
             0,
             INIT_C_CC
