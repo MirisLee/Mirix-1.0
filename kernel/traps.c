@@ -22,7 +22,7 @@
 		: ""(seg), "m"(*(addr))); \
 })
 
-#define get_segment_dword(seg,addr) ({ \
+#define get_segment_long(seg,addr) ({ \
 	register unsigned long __res; \
 	__asm__( \
 		"push %%fs				;" \
@@ -72,7 +72,7 @@ static void die(char *str, long p_esp, long nr) {
 	printk("base: %p, limit: %p\n", get_base(current->ldt[1]), get_limit(0x17));
 	if (esp[4] == 0x17) {
 		printk("stack: ");
-		for (i = 0; i < 4; ++i) printk("%p ", get_segment_dword(0x17, i + (long *)esp[3]));
+		for (i = 0; i < 4; ++i) printk("%p ", get_segment_long(0x17, i + (long *)esp[3]));
 		printk("\n");
 	}
 	str(i);
@@ -168,7 +168,7 @@ void trap_init(void) {
 	set_system_gate(4, &overflow);
 	set_system_gate(5, &bounds);
 	set_trap_gate(6, &invalid_op);
-	set_trap_gate(7, &device_not_available);
+	/* set_trap_gate(7, &device_not_available); */
 	set_trap_gate(8, &double_fault);
 	set_trap_gate(9, &coprocessor_segment_overrun);
 	set_trap_gate(10, &invalid_TSS);
@@ -177,7 +177,7 @@ void trap_init(void) {
 	set_trap_gate(13, &general_protection);
 	set_trap_gate(14, &page_fault);
 	set_trap_gate(15, &reserved);
-	set_trap_gate(16, &coprocessor_error);
+	/* set_trap_gate(16, &coprocessor_error); */
 	for (i = 17; i < 48; ++i) 	set_trap_gate(i, &reserved);
 	
 	outb_p(inb_p(0x21) & 0xfb, 0x21);	/* master 8259A, IRQ2 allowed */

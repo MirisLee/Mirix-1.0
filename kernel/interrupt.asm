@@ -24,7 +24,7 @@ no_error_code:
 	mov ds, dx 
 	mov es, dx 
 	mov fs, dx 
-	call *eax	; call C function
+	call eax	; call C function
 	add esp, 8
 	pop fs 
 	pop es 
@@ -57,7 +57,7 @@ error_code:
 	mov ds, ax 
 	mov es, ax 
 	mov fs, ax 
-	call *ebx	; call C function
+	call ebx	; call C function
 	add esp, 8
 	pop fs 
 	pop es 
@@ -132,5 +132,5 @@ _reserved:
 	jmp no_error_code
 	
 ; _coprocessor_error -- kernel/syscall.asm
-; _time_interrupt -- kernel/syscall.asm
+; _timer_interrupt -- kernel/syscall.asm
 ; _system_call -- kernel/syscall.asm
