@@ -144,7 +144,7 @@ align 2
 _sys_execve:
     lea eax, [esp+_EIP]
     push eax
-    call _do_execve
+    call _do_execve         ; fs/exec.c
     add esp, 4
     ret
 
